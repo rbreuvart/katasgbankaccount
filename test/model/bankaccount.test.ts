@@ -1,5 +1,5 @@
 
-import BankAccount from '../../src/model/bankaccount';
+import BankAccount from '../../src/model/account';
 
 describe('BankAccount', () => {
   let account: BankAccount;

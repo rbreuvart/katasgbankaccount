@@ -27,6 +27,30 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+
+
+
+/**
+ * @swagger
+ * /account/{accountNumber}:
+ *   post:
+ *     summary: Create a new account
+ *     parameters:
+ *       - in: path
+ *         name: accountNumber
+ *         required: true
+ *         schema:
+ *           type: string
+ *     
+ *     responses:
+ *       200:
+ *         description: account created
+ *       400:
+ *         description: Bad request
+ */
+app.post('/account/:accountNumber', accountController.createAccount);
+
+
 /**
  * @swagger
  * /accounts/{accountNumber}/deposit:
@@ -113,6 +137,32 @@ app.post('/accounts/:accountNumber/withdraw', accountController.withdraw);
  *                     type: number
  */
 app.get('/accounts/:accountNumber/history', accountController.getHistory);
+
+
+
+
+
+/**
+ * @swagger
+ * /accounts/{accountNumber}/print:
+ *   get:
+ *     summary: Get the transaction history for a specific account
+ *     parameters:
+ *       - in: path
+ *         name: accountNumber
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of movements
+ *         content:
+ *           application/text:
+ *             schema:
+ *               type: string
+ *               example: 'Date: 2023-01-01, Amount: 100, Balance: 100\nDate: 2023-02-01, Amount: 200, Balance: 300\n'
+ */
+app.get('/accounts/:accountNumber/print', accountController.getPrintStatement);
 
 const port = 3000;
 app.listen(port, () => {

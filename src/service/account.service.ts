@@ -1,15 +1,12 @@
 
-import BankAccount from '../model/bankaccount';
-import Movement from '../model/movement';
+import BankAccount from '../model/account';
+import Transaction from '../model/transaction';
 
 class AccountService {
-  //j'utilise accounts pour remplacer l'utilisation d'une base de données
   private accounts: Map<string, BankAccount> = new Map();
 
   constructor() {
-    // compte par defaut
-    const defaultAccount = new BankAccount("FR123456789");
-    this.accounts.set(defaultAccount.getAccountNumber(), defaultAccount);
+
   }
 
   getAccount(accountNumber: string): BankAccount | undefined {
@@ -32,12 +29,18 @@ class AccountService {
     account.withdraw(amount);
   }
 
-  getHistory(accountNumber: string): Movement[] {
+  getHistory(accountNumber: string): Transaction[] {
     const account = this.getAccount(accountNumber);
     if (!account) {
       throw new Error('Account not found.');
     }
     return account.getHistory();
+  }
+
+  createAccount(accountNumber: string): BankAccount {
+    const newAccount = new BankAccount(accountNumber);
+    this.accounts.set(accountNumber, newAccount);
+    return newAccount;
   }
 }
 
